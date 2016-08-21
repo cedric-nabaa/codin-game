@@ -1,4 +1,4 @@
-package com.codingame.chuck;
+package com.codingame.winamax;
 
 import java.util.Stack;
 
