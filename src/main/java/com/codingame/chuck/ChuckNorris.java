@@ -3,7 +3,7 @@ package com.codingame.chuck;
 import java.nio.charset.Charset;
 import java.util.Scanner;
 
-public class ChuckNorris {
+final public class ChuckNorris {
 
 	private static final String US_ASCII = "US-ASCII";
 

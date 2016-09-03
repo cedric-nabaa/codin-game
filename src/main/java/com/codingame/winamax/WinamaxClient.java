@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
-public class WinamaxClient {
+final public class WinamaxClient {
 	private static final List<String> DECK = Arrays.asList(new String[] { "2",
 			"3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A" });
 
