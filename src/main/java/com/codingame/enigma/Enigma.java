@@ -1,7 +1,7 @@
 package com.codingame.enigma;
 
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -30,10 +30,17 @@ So 'JLC' becomes 'BHD'.
 If the third ROTOR is 'EKMFLGDQVZNTOWYHXUSPAIBRCJ', then the final substitution is 'BHD' becoming 'KQF'.
 Final Output is sent via Radio Transmitter.
 	 * 
+	 * 
+	 * EMJESQFGTGGKNREKBXTPFDD
+	 * JZTJGILCACCXNWJXDSAELHH
+	 * 
+	 * ABCDEFGHIJKLMNOPQRSTUVWXYZ
+	 * BDFHJLCPRTXVZNYEIWGAKMUSQO
 	 */
-	final Map<Character,Integer> map;
-	public Enigma() {
-		map = new HashMap<>(26);
+	final static Map<Character,Integer> map = new HashMap<>(26);
+	
+	static {
+
 		map.put('A', 1);
 		map.put('B', 2);
 		map.put('C', 3);
@@ -60,22 +67,74 @@ Final Output is sent via Radio Transmitter.
 		map.put('X', 24);
 		map.put('Y', 25);
 		map.put('Z', 26);
-	}
+		
 	
-	public String encode(int factor, String message, ArrayList<String> rotors) {
+	}
+			
+	
+	
+	public static String encode(int factor, String message, List<String> rotors) {
 		final char [] chars=message.toCharArray();
 		final char []shiftedChars = new char [message.length()];
 		for (int i=0;i<chars.length;i++) {
-			shiftedChars[i]=((char)(chars[i] + factor + i));
-		}
-		for(int i=0;i<rotors.size();i++) {
-			for(int j=0;j< shiftedChars.length;j++) {
-				int pos= map.get(shiftedChars[j]);
-				char repValue=rotors.get(i).toCharArray()[pos-1];
-				shiftedChars[j]= repValue;
+			int idx=(char)(chars[i] + factor + i);
+			System.out.println("char " + chars[i] + "is "+ chars[i]+" + " + factor +" + "+ i);
+			if(idx<=90) {
+				shiftedChars[i]=(char)(idx);
+			}else {
+				while(idx>90) {
+					idx-=26;
+				}
+				shiftedChars[i]=(char)(idx);
 			}
+			System.out.println("shifted char is: " + shiftedChars[i]);
+		}
+		System.out.println("shifted message is: " + new String(shiftedChars));
+
+		for(int i=0;i<rotors.size();i++) {
+			matchRotor(rotors.get(i), shiftedChars,true);
+			System.out.println("rotor " + i + "shifted msg is : " + new String(shiftedChars));
 		}
 		return new String(shiftedChars);
+	}
+
+	private static void matchRotor(String rotor, char[] charsToMatch,boolean isEncode) {
+		for(int j=0;j< charsToMatch.length;j++) {
+			char repValue;
+			if(isEncode) {
+				int pos= map.get(charsToMatch[j]);
+				repValue=rotor.toCharArray()[pos-1];
+			}else {
+				int pos=rotor.indexOf(charsToMatch[j]);
+				repValue=(char)(65+pos);
+			}
+			charsToMatch[j]= repValue;
+		}
+	}
+
+	
+	public static String decode(int factor, String message, List<String> rotors) {
+		//'ABCDEFGHIJKLMNOPQRSTUVWXYZ' 
+		final char[] charArray = message.toCharArray();
+		final char[] decodedArr = new char [charArray.length]; 
+		for (int i =0;i<rotors.size();i++) {
+			matchRotor(rotors.get(i), charArray,false);
+			System.out.println("rotor number " + i +" message: " + new String (charArray));
+		}
+		for(int i=0;i<charArray.length;i++) {
+			int idx=(char)(charArray[i]-factor-i);
+			if(idx>=65) {
+				decodedArr[i]=(char)(charArray[i]-factor-i);
+			}else {
+				while(idx<65) {
+					idx+=26;
+				}
+				decodedArr[i]=(char)idx;
+				System.out.println("idx : " + idx );
+			}
+			System.out.println("shifting message from : " + charArray[i] + " to : " + decodedArr[i]);
+		}
+		return new String (decodedArr);
 	}
 
 }
