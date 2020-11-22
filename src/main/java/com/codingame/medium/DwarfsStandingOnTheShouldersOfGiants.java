@@ -44,7 +44,7 @@ public class DwarfsStandingOnTheShouldersOfGiants {
 	}
 
 	protected static Set<LinkedList<Integer>> addToGraph(int[][] arr) {
-		Set<LinkedList<Integer>> graph = new HashSet<LinkedList<Integer>>();
+		Set<LinkedList<Integer>> graph = new HashSet<>();
 
 		for (int i = 0; i < arr.length; i++) {
 			final int[] item = arr[i];
@@ -61,15 +61,20 @@ public class DwarfsStandingOnTheShouldersOfGiants {
 				LinkedList<Integer> newChain = new LinkedList<>();
 				newChain.add(x);
 				newChain.add(y);
+				boolean addedAgain = false;
 				for (LinkedList<Integer> existingChain : graph) {
 					if (existingChain.getFirst().equals(y)) {
-						newChain.addAll(existingChain);
+						existingChain.addFirst(x);
+						addedAgain = true;
 					}
 				}
-				graph.add(newChain);
+				if (!addedAgain) {
+					graph.add(newChain);
+				}
 			}
 		}
 		return graph;
 
 	}
+
 }
