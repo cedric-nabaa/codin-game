@@ -1,2 +1,2 @@
-# coding-game challenges:
+# codin-game challenges:
 https://www.codingame.com/
