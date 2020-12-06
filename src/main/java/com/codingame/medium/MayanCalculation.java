@@ -5,7 +5,7 @@ import java.util.stream.Stream;
 
 public class MayanCalculation {
 
-	private static final int NUMBER_OF_RADIX = 5;
+	private static final int NUMBER_OF_RADIX = 10;
 
 	private static final int RADIX_20 = 20;
 
@@ -29,7 +29,7 @@ public class MayanCalculation {
 		int secondOperandSingleFormatRepresentation = getSingleNumberFromRep(
 				numeralOpRepresentation.getSecondOperandRep(), numeralOpRepresentation.getNumLinesSecondOperand(),
 				numRepresentation, numeralOpRepresentation.getHeight());
-		int numb = 0;
+		long numb = 0;
 		if ("+".equals(numeralOpRepresentation.getOperator())) {
 			numb = firstOperandSingleFormatRepresentation + secondOperandSingleFormatRepresentation;
 		} else if ("-".equals(numeralOpRepresentation.getOperator())) {
@@ -101,7 +101,7 @@ public class MayanCalculation {
 		return rep;
 	}
 
-	protected String convertFromDecimalToBaseTwentyRep(int number, String[] values) {
+	protected String convertFromDecimalToBaseTwentyRep(long number, String[] values) {
 		Integer[] arr = new Integer[NUMBER_OF_RADIX];
 		Arrays.fill(arr, 0);
 		Integer[] convertFromDecimalToBaseTwenty = convertFromDecimalToBaseTwenty(number, arr);
