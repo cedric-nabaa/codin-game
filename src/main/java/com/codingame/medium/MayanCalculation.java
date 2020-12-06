@@ -65,6 +65,9 @@ public class MayanCalculation {
 			}
 			k[0]++;
 		});
+		if (k[0] == 1) {
+			arr[arr.length - 1] = String.valueOf(numRep.charAt(arr.length - 1));
+		}
 		return arr;
 	}
 

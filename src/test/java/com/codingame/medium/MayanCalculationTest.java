@@ -10,6 +10,7 @@ import com.codingame.medium.MayanCalculation.NumeralOpRepresentation;
 
 public class MayanCalculationTest {
 
+	private static final String BASE_20 = "0123456789ABCDEFGHIJ";
 	private final MayanCalculation mayanCalculation = new MayanCalculation();
 
 	@Test
@@ -77,6 +78,77 @@ public class MayanCalculationTest {
 				+ "____\n" + "____\n" + ".oo.\n" + "o..o\n" + ".oo.\n" + "....";
 
 		final NumeralOpRepresentation numOpRepresentation = new NumeralOpRepresentation(4, 4, numRep, 16, firstNumb, 20,
+				secondNumb, "*");
+
+		assertThat(mayanCalculation.compute(numOpRepresentation)).isEqualTo(expectedNumb);
+
+	}
+
+	@Test
+	public void test_base_20_mult() {
+		String numRep = getBase20Rep();
+		// 8016
+		String firstNumb = "1\n" + "0\n" + "0\n" + "G";
+		// 42
+		String secondNumb = "2\n" + "2";
+
+		String expectedNumb = "2\n" + "2\n" + "1\n" + "D\n" + "C";
+
+		final NumeralOpRepresentation numOpRepresentation = new NumeralOpRepresentation(1, 1, numRep, 4, firstNumb, 2,
+				secondNumb, "*");
+
+		assertThat(mayanCalculation.compute(numOpRepresentation)).isEqualTo(expectedNumb);
+
+	}
+
+	@Test
+	public void test_base_20_add() {
+		String numRep = getBase20Rep();
+		// 8016
+		String firstNumb = "1\n" + "0\n" + "0\n" + "G";
+		// 42
+		String secondNumb = "2\n" + "2";
+
+		String expectedNumb = "1\n" + "0\n" + "2\n" + "I";
+
+		final NumeralOpRepresentation numOpRepresentation = new NumeralOpRepresentation(1, 1, numRep, 4, firstNumb, 2,
+				secondNumb, "+");
+
+		assertThat(mayanCalculation.compute(numOpRepresentation)).isEqualTo(expectedNumb);
+
+	}
+
+	@Test
+	public void test_base_20_sub() {
+		String numRep = getBase20Rep();
+		// 8016
+		String firstNumb = "1\n" + "0\n" + "0\n" + "G";
+		// 42
+		String secondNumb = "2\n" + "2";
+
+		String expectedNumb = "J\n" + "I\n" + "E";
+
+		final NumeralOpRepresentation numOpRepresentation = new NumeralOpRepresentation(1, 1, numRep, 4, firstNumb, 2,
+				secondNumb, "-");
+		assertThat(mayanCalculation.readNumRepresentationSimple(1, 1, numRep)).isEqualTo(new String[] { "0", "1", "2",
+				"3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J" });
+		assertThat(mayanCalculation.compute(numOpRepresentation)).isEqualTo(expectedNumb);
+
+	}
+
+	@Test
+	public void test_complex_base_20() {
+		String numRep = getBase20Rep();
+		// 8016
+		String firstNumb = "1\n" + "0\n" + "0\n" + "G";
+
+		String secondNumb = firstNumb;
+
+		// 64_256_256
+
+		String expectedNumb = "1\n" + "0\n" + "1\n" + "C\n" + "0\n" + "C\n" + "G";
+
+		final NumeralOpRepresentation numOpRepresentation = new NumeralOpRepresentation(1, 1, numRep, 4, firstNumb, 4,
 				secondNumb, "*");
 
 		assertThat(mayanCalculation.compute(numOpRepresentation)).isEqualTo(expectedNumb);
@@ -156,6 +228,10 @@ public class MayanCalculationTest {
 				+ "	.oo.....................................________________________________________;\n"
 				+ "	............................................................____________________";
 		return numRep.replace("\t", "");
+	}
+
+	private String getBase20Rep() {
+		return BASE_20;
 	}
 
 }
