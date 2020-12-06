@@ -1,41 +1,54 @@
 package com.codingame.medium;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Arrays;
 import java.util.stream.Stream;
 
 public class MayanCalculation {
 
+	private static final int NUMBER_OF_RADIX = 5;
+
 	private static final int RADIX_20 = 20;
+
+	private static final double[] RADIX_POWERS = new double[1000];
+
+	public MayanCalculation() {
+		for (int i = 0; i < NUMBER_OF_RADIX; i++) {
+			RADIX_POWERS[i] = (Math.pow(RADIX_20, i));
+		}
+	}
 
 	protected String compute(NumeralOpRepresentation numeralOpRepresentation) {
 
-		String[][] numRepresentation = readNumRepresentation(numeralOpRepresentation.getWidth(),
+		String[] numRepresentation = readNumRepresentationSimple(numeralOpRepresentation.getWidth(),
 				numeralOpRepresentation.getHeight(), numeralOpRepresentation.getNumRep());
-		Map<String, Integer> computedBase = computeBase(numRepresentation, numeralOpRepresentation.getHeight());
-		return "";
-	}
 
-	protected Map<String, Integer> computeBase(String[][] numRepresentation, int height) {
-		final Map<String, Integer> mayanToIn = new HashMap<>(RADIX_20);
+		int firstOperandSingleFormatRepresentation = getSingleNumberFromRep(
+				numeralOpRepresentation.getFirstOperandRep(), numeralOpRepresentation.getNumLinesFirstOperand(),
+				numRepresentation, numeralOpRepresentation.getHeight());
 
-		for (int i = 0; i < RADIX_20; i++) {
-			String num = "";
-			for (int j = 0; j < height; j++) {
-				num += numRepresentation[j][i];
-			}
-			mayanToIn.put(num, i);
+		int secondOperandSingleFormatRepresentation = getSingleNumberFromRep(
+				numeralOpRepresentation.getSecondOperandRep(), numeralOpRepresentation.getNumLinesSecondOperand(),
+				numRepresentation, numeralOpRepresentation.getHeight());
+		int numb = 0;
+		if ("+".equals(numeralOpRepresentation.getOperator())) {
+			numb = firstOperandSingleFormatRepresentation + secondOperandSingleFormatRepresentation;
+		} else if ("-".equals(numeralOpRepresentation.getOperator())) {
+			numb = firstOperandSingleFormatRepresentation - secondOperandSingleFormatRepresentation;
+		} else if ("*".equals(numeralOpRepresentation.getOperator())) {
+			numb = firstOperandSingleFormatRepresentation * secondOperandSingleFormatRepresentation;
+		} else if ("/".equals(numeralOpRepresentation.getOperator())) {
+			numb = firstOperandSingleFormatRepresentation / secondOperandSingleFormatRepresentation;
 		}
-		return mayanToIn;
-
+		return convertFromDecimalToBaseTwentyRep(numb, numRepresentation);
 	}
 
-	protected String[][] readNumRepresentation(int width, int height, String numRep) {
-		String[][] arr = new String[height][20];
+	protected String[] readNumRepresentationSimple(int width, int height, String numRep) {
+		String[] arr = new String[20];
+		Arrays.fill(arr, "");
+		Stream<String> lines = numRep.lines();
 
 		final int[] k = new int[] { 0 };
 
-		Stream<String> lines = numRep.lines();
 		lines.forEach((line) -> {
 			String rep = "";
 			for (int i = 0; i <= (RADIX_20 * width) - 1; i++) {
@@ -44,22 +57,89 @@ public class MayanCalculation {
 						rep += "\n";
 					}
 					int idx = (i / width) - 1;
-					arr[k[0]][idx] = rep;
+					arr[idx] += rep;
 					rep = String.valueOf(line.charAt(i));
 				} else {
 					rep += line.charAt(i);
 				}
 			}
-			rep += "\n";
-			arr[k[0]][19] = rep;
 			k[0]++;
 		});
 		return arr;
 	}
 
-//	protected int getSingleNumberFromRep(String rep, int height) {
-//		
-//	}
+	protected int getSingleNumberFromRep(String singleRep, int singleHeight, String[] values, int height) {
+		int numberOfNumbers = singleHeight / height;
+		String[] complexNumberRepArr = getComplexNumberRep(singleRep, height, numberOfNumbers);
+		int num = 0;
+		for (int i = 0; i < complexNumberRepArr.length; i++) {
+
+			String complexNumberRep = complexNumberRepArr[i].substring(0, complexNumberRepArr[i].length() - 1);
+			for (int j = 0; j < values.length; j++) {
+				if (complexNumberRep.equals(values[j])) {
+					int power = complexNumberRepArr.length - 1 - i;
+					num += j * Math.pow(RADIX_20, power);
+				}
+			}
+		}
+
+		return num;
+	}
+
+	protected String[] getComplexNumberRep(String singleRep, int height, int numberOfNumbers) {
+		String[] rep = new String[numberOfNumbers];
+		Arrays.fill(rep, "");
+		int[] lineNumber = new int[] { 0 };
+		int[] number = new int[] { 0 };
+		singleRep.lines().forEach((line) -> {
+			if (lineNumber[0] >= height && lineNumber[0] % height == 0) {
+				number[0]++;
+			}
+			rep[number[0]] += line + "\n";
+			lineNumber[0]++;
+		});
+		return rep;
+	}
+
+	protected String convertFromDecimalToBaseTwentyRep(int number, String[] values) {
+		Integer[] arr = new Integer[NUMBER_OF_RADIX];
+		Arrays.fill(arr, 0);
+		Integer[] convertFromDecimalToBaseTwenty = convertFromDecimalToBaseTwenty(number, arr);
+
+		int idx = -1;
+		for (int i = 0; i < convertFromDecimalToBaseTwenty.length; i++) {
+			if (convertFromDecimalToBaseTwenty[i] > 0) {
+				idx = i;
+			}
+		}
+		Integer[] formatedArr = new Integer[idx + 1];
+		System.arraycopy(convertFromDecimalToBaseTwenty, 0, formatedArr, 0, idx + 1);
+		;
+		String rep = "";
+		for (int i = formatedArr.length - 1; i >= 0; i--) {
+			if (i > 0) {
+				rep += values[formatedArr[i]] + "\n";
+			} else {
+				rep += values[formatedArr[i]];
+			}
+		}
+		return rep;
+	}
+
+	protected Integer[] convertFromDecimalToBaseTwenty(double number, Integer[] arr) {
+		if (number == 0) {
+			return arr;
+		} else {
+			for (int i = 0; i < RADIX_POWERS.length - 1; i++) {
+				if (RADIX_POWERS[i] <= number && number < RADIX_POWERS[i + 1]) {
+					int div = (int) (number / RADIX_POWERS[i]);
+					arr[i] = div;
+					return convertFromDecimalToBaseTwenty(number - (RADIX_POWERS[i] * div), arr);
+				}
+			}
+		}
+		return null;
+	}
 
 	protected static class NumeralOpRepresentation {
 
@@ -70,10 +150,10 @@ public class MayanCalculation {
 		private final String firstOperandRep;
 		private final int numLinesSecondOperand;
 		private final String secondOperandRep;
-		private final char operator;
+		private final String operator;
 
 		public NumeralOpRepresentation(int width, int height, String numRep, int numLinesFirstOperand,
-				String firstOperandRep, int numLinesSecondOperand, String secondOperandRep, char operator) {
+				String firstOperandRep, int numLinesSecondOperand, String secondOperandRep, String operator) {
 			this.width = width;
 			this.height = height;
 			this.numRep = numRep;
@@ -112,8 +192,16 @@ public class MayanCalculation {
 			return secondOperandRep;
 		}
 
-		public char getOperator() {
+		public String getOperator() {
 			return operator;
+		}
+
+		@Override
+		public String toString() {
+			return "NumeralOpRepresentation [width=" + width + ", height=" + height + ", numRep=" + numRep
+					+ ", numLinesFirstOperand=" + numLinesFirstOperand + ", firstOperandRep=" + firstOperandRep
+					+ ", numLinesSecondOperand=" + numLinesSecondOperand + ", secondOperandRep=" + secondOperandRep
+					+ ", operator=" + operator + "]";
 		}
 
 	}
