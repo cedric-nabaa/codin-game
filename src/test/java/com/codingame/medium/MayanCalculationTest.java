@@ -68,10 +68,13 @@ public class MayanCalculationTest {
 				+ "oo..\n" + "____\n" + "____\n" + "____\n" + "....\n" + "____\n" + "....\n" + "....\n";
 
 		String secondNumb = "oooo\n" + "....\n" + "....\n" + "....\n" + "ooo.\n" + "____\n" + "____\n" + "____\n"
-				+ "oo..\n" + "____\n" + "____\n" + "....\n" + "....\n" + "____\n" + "____\n" + "....\n" + "o...\n"
+				+ "oo..\n" + "____\n" + "____\n" + "....\n" + "....\n" + "____\n" + "____\n" + "....\n" + "oo..\n"
 				+ "____\n" + "____\n" + "....";
 
-		String expectedNumb = "o...\n" + "....\n" + "....\n" + "....\n" + "o...\n" + "____\n" + "____\n" + "....";
+		String expectedNumb = "oo..\n" + "____\n" + "....\n" + "....\n" + "oo..\n" + "____\n" + "____\n" + "....\n"
+				+ "ooo.\n" + "....\n" + "....\n" + "....\n" + "oo..\n" + "____\n" + "____\n" + "____\n" + "oooo\n"
+				+ "....\n" + "....\n" + "....\n" + "oo..\n" + "....\n" + "....\n" + "....\n" + "oo..\n" + "____\n"
+				+ "____\n" + "____\n" + ".oo.\n" + "o..o\n" + ".oo.\n" + "....";
 
 		final NumeralOpRepresentation numOpRepresentation = new NumeralOpRepresentation(4, 4, numRep, 16, firstNumb, 20,
 				secondNumb, "*");

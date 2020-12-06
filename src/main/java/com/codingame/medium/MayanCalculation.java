@@ -22,11 +22,11 @@ public class MayanCalculation {
 		String[] numRepresentation = readNumRepresentationSimple(numeralOpRepresentation.getWidth(),
 				numeralOpRepresentation.getHeight(), numeralOpRepresentation.getNumRep());
 
-		int firstOperandSingleFormatRepresentation = getSingleNumberFromRep(
+		long firstOperandSingleFormatRepresentation = getSingleNumberFromRep(
 				numeralOpRepresentation.getFirstOperandRep(), numeralOpRepresentation.getNumLinesFirstOperand(),
 				numRepresentation, numeralOpRepresentation.getHeight());
 
-		int secondOperandSingleFormatRepresentation = getSingleNumberFromRep(
+		long secondOperandSingleFormatRepresentation = getSingleNumberFromRep(
 				numeralOpRepresentation.getSecondOperandRep(), numeralOpRepresentation.getNumLinesSecondOperand(),
 				numRepresentation, numeralOpRepresentation.getHeight());
 		long numb = 0;
@@ -68,10 +68,10 @@ public class MayanCalculation {
 		return arr;
 	}
 
-	protected int getSingleNumberFromRep(String singleRep, int singleHeight, String[] values, int height) {
+	protected long getSingleNumberFromRep(String singleRep, int singleHeight, String[] values, int height) {
 		int numberOfNumbers = singleHeight / height;
 		String[] complexNumberRepArr = getComplexNumberRep(singleRep, height, numberOfNumbers);
-		int num = 0;
+		long num = 0;
 		for (int i = 0; i < complexNumberRepArr.length; i++) {
 
 			String complexNumberRep = complexNumberRepArr[i].substring(0, complexNumberRepArr[i].length() - 1);
