@@ -107,21 +107,26 @@ public class MayanCalculation {
 		Integer[] convertFromDecimalToBaseTwenty = convertFromDecimalToBaseTwenty(number, arr);
 
 		int idx = -1;
+		boolean isDiffFromZero = false;
 		for (int i = 0; i < convertFromDecimalToBaseTwenty.length; i++) {
 			if (convertFromDecimalToBaseTwenty[i] > 0) {
 				idx = i;
+				isDiffFromZero = true;
 			}
 		}
-		Integer[] formatedArr = new Integer[idx + 1];
-		System.arraycopy(convertFromDecimalToBaseTwenty, 0, formatedArr, 0, idx + 1);
-		;
 		String rep = "";
-		for (int i = formatedArr.length - 1; i >= 0; i--) {
-			if (i > 0) {
-				rep += values[formatedArr[i]] + "\n";
-			} else {
-				rep += values[formatedArr[i]];
+		if (isDiffFromZero) {
+			Integer[] formatedArr = new Integer[idx + 1];
+			System.arraycopy(convertFromDecimalToBaseTwenty, 0, formatedArr, 0, idx + 1);
+			for (int i = formatedArr.length - 1; i >= 0; i--) {
+				if (i > 0) {
+					rep += values[formatedArr[i]] + "\n";
+				} else {
+					rep += values[formatedArr[i]];
+				}
 			}
+		} else {
+			rep = values[0];
 		}
 		return rep;
 	}

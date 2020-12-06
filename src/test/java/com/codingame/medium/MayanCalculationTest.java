@@ -42,15 +42,26 @@ public class MayanCalculationTest {
 
 		assertThat(mayanCalculation.compute(numOpRepresentation)).isEqualTo(expectedNumb);
 	}
-	/*
-	 * 
-	 * oo.. ____ .... .... oo.. ____ ____ .... ooo. .... .... .... oo.. ____ ____
-	 * ____ oooo .... .... .... oo.. .... .... .... oo.. ____ ____ ____ .oo. o..o
-	 * .oo. ....
-	 */
 
 	@Test
-	public void test_great_multiplication() {
+	public void test_with_zero() {
+		String numRep = getSimpleNumberOfRepresentation();
+
+		String firstNumb = "o...\n" + "....\n" + "....\n" + "....\n" + "....\n" + "____\n" + "____\n" + "....\n"
+				+ "oo..\n" + "____\n" + "____\n" + "____\n" + "....\n" + "____\n" + "....\n" + "....\n";
+
+		String secondNumb = ".oo.\n" + "o..o\n" + ".oo.\n" + "....";
+
+		String expectedNumb = ".oo.\n" + "o..o\n" + ".oo.\n" + "....";
+
+		final NumeralOpRepresentation numOpRepresentation = new NumeralOpRepresentation(4, 4, numRep, 16, firstNumb, 4,
+				secondNumb, "*");
+
+		assertThat(mayanCalculation.compute(numOpRepresentation)).isEqualTo(expectedNumb);
+	}
+
+	@Test
+	public void test_with_great_multiplication() {
 		String numRep = getSimpleNumberOfRepresentation();
 
 		String firstNumb = "o...\n" + "....\n" + "....\n" + "....\n" + "....\n" + "____\n" + "____\n" + "....\n"
@@ -66,6 +77,7 @@ public class MayanCalculationTest {
 				secondNumb, "*");
 
 		assertThat(mayanCalculation.compute(numOpRepresentation)).isEqualTo(expectedNumb);
+
 	}
 
 	@Test
