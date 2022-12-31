@@ -2,8 +2,9 @@ package com.codingame.enigma;
 
 
 import org.assertj.core.util.Lists;
-import org.junit.Test;
-import static org.assertj.core.api.Assertions.*;
+import org.junit.jupiter.api.Test;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * @author cedric

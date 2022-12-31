@@ -1,12 +1,10 @@
 package com.codingame.winamax;
 
-import java.util.Stack;
-
 import org.assertj.core.api.Assertions;
 import org.assertj.core.util.Lists;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import com.codingame.winamax.WinamaxClient;
+import java.util.Stack;
 
 public class WinamaxTest {
 	@Test

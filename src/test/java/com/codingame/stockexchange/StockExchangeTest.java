@@ -1,11 +1,11 @@
 package com.codingame.stockexchange;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import org.assertj.core.util.Lists;
+import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-import org.assertj.core.util.Lists;
-import org.junit.Test;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class StockExchangeTest {
 

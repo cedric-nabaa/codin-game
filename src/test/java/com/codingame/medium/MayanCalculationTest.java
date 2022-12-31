@@ -1,12 +1,11 @@
 package com.codingame.medium;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import com.codingame.medium.MayanCalculation.NumeralOpRepresentation;
+import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 
-import org.junit.Test;
-
-import com.codingame.medium.MayanCalculation.NumeralOpRepresentation;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class MayanCalculationTest {
 

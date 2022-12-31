@@ -1,10 +1,10 @@
 package com.codingame.medium;
 
+import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.Test;
+
 import java.util.HashSet;
 import java.util.Set;
-
-import org.assertj.core.api.Assertions;
-import org.junit.Test;
 
 public class ScrabbleTest {
 

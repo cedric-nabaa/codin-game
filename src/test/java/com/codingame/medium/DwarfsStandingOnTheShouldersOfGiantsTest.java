@@ -1,7 +1,7 @@
 package com.codingame.medium;
 
 import org.assertj.core.api.Assertions;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class DwarfsStandingOnTheShouldersOfGiantsTest {
 

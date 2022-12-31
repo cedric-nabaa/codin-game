@@ -47,6 +47,7 @@ public class MayanCalculation {
 		Arrays.fill(arr, "");
 		Stream<String> lines = numRep.lines();
 
+
 		final int[] k = new int[] { 0 };
 
 		lines.forEach((line) -> {
